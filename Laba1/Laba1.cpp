@@ -185,6 +185,37 @@ public: string a;
 		  string str = BININHEX(c);
 		  cout << str << endl;
 	  }
+	  int * LongMulOneDigit(string a, int b)
+	  {
+		  int* num1 = HEXINBIT(a);
+		  int* c = new int[2048];
+		  int carry = 0, temp = 0;
+		  for (int i = 0; i < 2048; i++)
+		  {
+			  temp = num1[i] * b + carry;
+			  c[i] = temp & 1;
+			  carry = temp >> 1;
+		  }
+		  c[2048] = carry;
+		  return c;
+	  }
+	  void LongMul(string a, string b)
+	  {
+		  int* num1 = HEXINBIT(a);
+		  int* num2 = HEXINBIT(b);
+		  int* c = new int[2048];
+		  c = 0;
+		  int * temp = 0; 
+		  for (int i = 0; i < 2048; i++)
+		  {
+			  temp = LongMulOneDigit(a, num2[i]);
+			  LongShiftDigitsToHigh(temp, i);
+		  }
+	  }
+	  int* LongShiftDigitalsToHigh(int* temp, int i)
+	  {
+
+	  }
 	  
  };
 
@@ -194,122 +225,7 @@ int main()
 	getline(cin, number1);
 	getline(cin, number2);
 	HEXCalculator A;
-	/*A.LongAdd(number1, number2);*/
+	A.LongAdd(number1, number2);
 	A.LongSub(number1, number2);
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/*string number1, num1bit;
-	getline(cin, number1);
-	char * n1 = new char[number1.length()+1];
-	number1.copy(n1, number1.length()+1);
-	for (int i = 0; i < number1.length() + 1; i++)
-	{
-		cout << n1[i] << " ";
-	}
-	for (int i = 0; i < number1.length() + 1; i++)
-	{
-		switch (n1[i])
-		{
-		case '0': num1bit += "0000";
-			break;
-		case '1': num1bit += "0001";
-			break;
-		case '2': num1bit += "0010";
-			break;
-		case '3': num1bit += "0011";
-			break;
-		case '4': num1bit += "0100";
-			break;
-		case '5': num1bit += "0101";
-			break;
-		case '6': num1bit += "0110";
-			break;
-		case '7': num1bit += "0111";
-			break;
-		case '8': num1bit += "1000";
-			break;
-		case '9': num1bit += "1001";
-			break;
-		case 'A': num1bit += "1010";
-			break;
-		case 'B': num1bit += "1011";
-			break;
-		case 'C': num1bit += "1100";
-			break;
-		case 'D': num1bit += "1101";
-			break;
-		case 'E': num1bit += "1111";
-			break;
-		}
-	}
-
-	cout << num1bit << endl;
-
-
-
-
-
-	//ПРЕОБРАЗОВАНИЕ В МАССИВ ИНТА
-	reverse(num1bit.begin(), num1bit.end());
-	char * numb1 = new char[number1.length() + 1];
-	num1bit.copy(numb1, num1bit.length() + 1);
-	int* num1 = new int[(num1bit.length() + 1)];
-	for (int i = 0; i < num1bit.length(); i++)
-	{
-		num1[i] = numb1[i] - '0';
-	}
-	cout << "Kakayato hren inta" << endl;
-	for (int i = 0; i < num1bit.length(); i++)
-	{
-		cout << num1[i] << endl;
-	
-
-	//СЛОЖЕНИЕ
-	int carry,temp = 0;
-	for (int i = 0; i < num1bit.length(); i++)
-	{
-		temp = a[i] + b[i] + carry;
-		c[i] = temp % 2;
-		carry = temp / 2;
-	}}*/
-
 }
 
