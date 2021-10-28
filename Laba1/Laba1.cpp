@@ -1,231 +1,317 @@
 ﻿#include <iostream>
 #include <string>
+#include <string.h>
 #include <algorithm>
 using namespace std;
-class HEXCalculator
+string HEXINBIT(string a)
 {
-public: string a;
-	  int* HEXINBIT(string a)
-	  {
-		  string c;
-		  char* n1 = new char[a.length() + 1];
-		  a.copy(n1, a.length() + 1);
-		  for (int i = 0; i < a.length() + 1; i++)
-		  {
-			  switch (n1[i])
-			  {
-			  case '0': c += "0000";
-				  break;
-			  case '1': c += "0001";
-				  break;
-			  case '2': c += "0010";
-				  break;
-			  case '3': c += "0011";
-				  break;
-			  case '4': c += "0100";
-				  break;
-			  case '5': c += "0101";
-				  break;
-			  case '6': c += "0110";
-				  break;
-			  case '7': c += "0111";
-				  break;
-			  case '8': c += "1000";
-				  break;
-			  case '9': c += "1001";
-				  break;
-			  case 'A': c += "1010";
-				  break;
-			  case 'B': c += "1011";
-				  break;
-			  case 'C': c += "1100";
-				  break;
-			  case 'D': c += "1101";
-				  break;
-			  case 'E': c += "1110";
-				  break;
-			  case 'F': c += "1111";
-			  }
-		  }
-		  reverse(c.begin(), c.end());
-		  c.resize(2048, '0');
-		  char* numb1 = new char[c.length() + 1];
-		  c.copy(numb1, c.length() + 1);
-		  int* num1 = new int[(c.length() + 1)];
-		  for (int i = 0; i < c.length(); i++)
-		  {
-			  num1[i] = numb1[i] - '0';
-		  }
-		  cout << "In bit:" << endl;
-		  for (int i = 0; i < c.length(); i++)
-		  {
-			  cout << num1[i];
-		  }
-		  return num1;
-	  }
-	  string BININHEX(int* n)
-	  {
-		  string c;
-		  for (int i = 0; i < 2048; i=i+4)
-		  {
-			  if (n[i] == 0 && n[i + 1] == 0 && n[i+2] == 0 && n[i+3]==0)
-			  {
-				  c += "0";
-			  }
-			  if (n[i] == 1 && n[i + 1] == 0 && n[i + 2] == 0 && n[i + 3] == 0)
-			  {
-				  c += "1";
-			  }
-			  if (n[i] == 0 && n[i + 1] == 1 && n[i + 2] == 0 && n[i + 3] == 0)
-			  {
-				  c += "2";
-			  }
-			  if (n[i] == 1 && n[i + 1] == 1 && n[i + 2] == 0 && n[i + 3] == 0)
-			  {
-				  c += "3";
-			  }
-			  if (n[i] == 0 && n[i + 1] == 0 && n[i + 2] == 1 && n[i + 3] == 0)
-			  {
-				  c += "4";
-			  }
-			  if (n[i] == 1 && n[i + 1] == 0 && n[i + 2] == 1 && n[i + 3] == 0)
-			  {
-				  c += "5";
-			  }
-			  if (n[i] == 0 && n[i + 1] == 1 && n[i + 2] == 1 && n[i + 3] == 0)
-			  {
-				  c += "6";
-			  }
-			  if (n[i] == 1 && n[i + 1] == 1 && n[i + 2] == 1 && n[i + 3] == 0)
-			  {
-				  c += "7";
-			  }
-			  if (n[i] == 0 && n[i + 1] == 0 && n[i + 2] == 0 && n[i + 3] == 1)
-			  {
-				  c += "8";
-			  }
-			  if (n[i] == 1 && n[i + 1] == 0 && n[i + 2] == 0 && n[i + 3] == 1)
-			  {
-				  c += "9";
-			  }
-			  if (n[i] == 0 && n[i + 1] == 1 && n[i + 2] == 0 && n[i + 3] == 1)
-			  {
-				  c += "A";
-			  }
-			  if (n[i] == 1 && n[i + 1] == 1 && n[i + 2] == 0 && n[i + 3] == 1)
-			  {
-				  c += "B";
-			  }
-			  if (n[i] == 0 && n[i + 1] == 0 && n[i + 2] == 1 && n[i + 3] == 1)
-			  {
-				  c += "C";
-			  }
-			  if (n[i] == 1 && n[i + 1] == 0 && n[i + 2] == 1 && n[i + 3] == 1)
-			  {
-				  c += "D";
-			  }
-			  if (n[i] == 0 && n[i + 1] == 1 && n[i + 2] == 1 && n[i + 3] == 1)
-			  {
-				  c += "E";
-			  }
-			  if (n[i] == 1 && n[i + 1] == 1 && n[i + 2] == 1 && n[i + 3] == 1)
-			  {
-				  c += "F";
-			  }
-		  }
-		  reverse(c.begin(), c.end());
-		  return c;
-	  }
-	  void LongAdd(string a, string b)
-	  {
-		  int* num1 = HEXINBIT(a);
-		  int* num2 = HEXINBIT(b);
-		  int * c = new int[2048];
-		  int carry =0 , temp = 0;
-		  for (int i = 0; i < 2048; i++)
-		  {
-			  temp = num1[i] + num2[i] + carry;
-			  c[i] = temp % 2;
-			  carry = temp / 2;
-		  }
-		  cout << "A+B = " << endl;
-		  /*char* numb1 = new char[2048];
-		  for (int i = 0; i < 2048; i++)
-		  {
-			  numb1[i] = c[i] + '0';
-		  }
-		  string s = string(numb1);
-		  cout << s << endl;
-		  cout << endl << "Normal form" << endl;
-		  reverse(s.begin(), s.end());*/
-		  string str = BININHEX(c);
-		  cout << str << endl;
-	  }
-	  void LongSub(string a, string b)
-	  {
-		  int* num1 = HEXINBIT(a);
-		  int* num2 = HEXINBIT(b);
-		  int* c = new int[2048];
-		  int borrow = 0, temp =0;
-		  for (int i = 0; i < 2048; i++)
-		  {
-			  temp = num1[i] - num2[i] - borrow;
-			  if (temp >= 0)
-			  {
-				  c[i] = temp;
-				  borrow = 0;
-			  }
-			  else
-			  {
-				  c[i] = 2 + temp;
-				  borrow = 1;
-			  }
-		  }
-		  cout << endl << "A-B = " << endl;
-		  string str = BININHEX(c);
-		  cout << str << endl;
-	  }
-	  int * LongMulOneDigit(string a, int b)
-	  {
-		  int* num1 = HEXINBIT(a);
-		  int* c = new int[2048];
-		  int carry = 0, temp = 0;
-		  for (int i = 0; i < 2048; i++)
-		  {
-			  temp = num1[i] * b + carry;
-			  c[i] = temp & 1;
-			  carry = temp >> 1;
-		  }
-		  c[2048] = carry;
-		  return c;
-	  }
-	  void LongMul(string a, string b)
-	  {
-		  int* num1 = HEXINBIT(a);
-		  int* num2 = HEXINBIT(b);
-		  int* c = new int[2048];
-		  c = 0;
-		  int * temp = 0; 
-		  for (int i = 0; i < 2048; i++)
-		  {
-			  temp = LongMulOneDigit(a, num2[i]);
-			  LongShiftDigitsToHigh(temp, i);
-		  }
-	  }
-	  int* LongShiftDigitalsToHigh(int* temp, int i)
-	  {
-
-	  }
-	  
- };
-
-int main()
+	string c;
+	char* n1 = new char[a.length() + 1];
+	a.copy(n1, a.length() + 1);
+	for (int i = 0; i < a.length() + 1; i++)
+	{
+		switch (n1[i])
+		{
+		case '0': c += "0000";
+			break;
+		case '1': c += "0001";
+			break;
+		case '2': c += "0010";
+			break;
+		case '3': c += "0011";
+			break;
+		case '4': c += "0100";
+			break;
+		case '5': c += "0101";
+			break;
+		case '6': c += "0110";
+			break;
+		case '7': c += "0111";
+			break;
+		case '8': c += "1000";
+			break;
+		case '9': c += "1001";
+			break;
+		case 'A': c += "1010";
+			break;
+		case 'B': c += "1011";
+			break;
+		case 'C': c += "1100";
+			break;
+		case 'D': c += "1101";
+			break;
+		case 'E': c += "1110";
+			break;
+		case 'F': c += "1111";
+		}
+	}
+	return c;
+}
+string BININHEX(string n)
 {
-	string number1, number2;
-	getline(cin, number1);
-	getline(cin, number2);
-	HEXCalculator A;
-	A.LongAdd(number1, number2);
-	A.LongSub(number1, number2);
+	while (n.length() % 4 != 0)
+	{
+		n.insert(0, "0");
+	}
+	string c;
+	for (int i = 0; i < n.length()-1; i=i+4)
+	{
+		if (n[i] == '0' && n[i + 1] == '0' && n[i+2] == '0' && n[i+3]== '0')
+		{
+			c += "0";
+		}
+		if (n[i] == '0' && n[i + 1] == '0' && n[i + 2] == '0' && n[i + 3] == '1')
+		{
+			c += "1";
+		}
+		if (n[i] == '0' && n[i + 1] == '0' && n[i + 2] == '1' && n[i + 3] == '0')
+		{
+			c += "2";
+		}
+		if (n[i] == '0' && n[i + 1] == '0' && n[i + 2] == '1' && n[i + 3] == '1')
+		{
+			c += "3";
+		}
+		if (n[i] == '0' && n[i + 1] == '1' && n[i + 2] == '0' && n[i + 3] == '0')
+		{
+			c += "4";
+		}
+		if (n[i] == '0' && n[i + 1] == '1' && n[i + 2] == '0' && n[i + 3] == '1')
+		{
+			c += "5";
+		}
+		if (n[i] == '0' && n[i + 1] == '1' && n[i + 2] == '1' && n[i + 3] == '0')
+		{
+			c += "6";
+		}
+		if (n[i] == '0' && n[i + 1] == '1' && n[i + 2] == '1' && n[i + 3] == '1')
+		{
+			c += "7";
+		}
+		if (n[i] == '1' && n[i + 1] == '0' && n[i + 2] == '0' && n[i + 3] == '0')
+		{
+			c += "8";
+		}
+		if (n[i] == '1' && n[i + 1] == '0' && n[i + 2] == '0' && n[i + 3] == '1')
+		{
+			c += "9";
+		}
+		if (n[i] == '1' && n[i + 1] == '0' && n[i + 2] == '1' && n[i + 3] == '0')
+		{
+			c += "A";
+		}
+		if (n[i] == '1' && n[i + 1] == '0' && n[i + 2] == '1' && n[i + 3] == '1')
+		{
+			c += "B";
+		}
+		if (n[i] == '1' && n[i + 1] == '1' && n[i + 2] == '0' && n[i + 3] == '0')
+		{
+			c += "C";
+		}
+		if (n[i] == '1' && n[i + 1] == '1' && n[i + 2] == '0' && n[i + 3] == '1')
+		{
+			c += "D";
+		}
+		if (n[i] == '1' && n[i + 1] == '1' && n[i + 2] == '1' && n[i + 3] == '0')
+		{
+			c += "E";
+		}
+		if (n[i] == '1' && n[i + 1] == '1' && n[i + 2] == '1' && n[i + 3] == '1')
+		{
+			c += "F";
+		}
+	}
+	return c;
+}
+string OneLong(string a, string b)
+{
+	while (a.length() - 1 != b.length() - 1)
+	{
+		a.insert(0, "0");
+	}
+	return a;
+}
+string LongAdd(string n1, string n2)
+{
+	string c;
+	if (n1.length() - 1 > n2.length() - 1)
+	{
+		n2 = OneLong(n2, n1);
+	}
+	else if(n1.length() - 1 < n2.length() - 1)
+	{
+		n1 = OneLong(n1, n2);
+	}
+	int temp = 0, carry = 0;
+	reverse(n1.begin(), n1.end());
+	reverse(n2.begin(), n2.end());
+	for (int i = 0; i < n1.length(); i++)
+	{
+		temp = n1[i] - '0' + n2[i] - '0' + carry;
+		c.insert(0, to_string(temp % 2));
+		carry = temp / 2;
+	}
+	if (carry != 0)
+	{
+		c.insert(0, to_string(carry));
+	}
+	return c;
+}
+string LongSub(string n1, string n2)
+{
+	string c;
+	int borrow = 0, temp =0;
+	if (n1.length() - 1 > n2.length() - 1)
+	{
+		n2 = OneLong(n2, n1);
+	}
+	else if (n1.length() - 1 < n2.length() - 1)
+	{
+		n1 = OneLong(n1, n2);
+	}
+	reverse(n1.begin(), n1.end());
+	reverse(n2.begin(), n2.end());
+	for (int i = 0; i < n1.length(); i++)
+	{
+		temp = n1[i]  - n2[i] - borrow;
+		if (temp >= 0)
+		{
+			c.insert(0, to_string(temp));
+			borrow = 0;
+		}
+		else
+		{
+			c.insert(0, to_string(temp + 2));
+			borrow = 1;
+		}
+	}
+	if (borrow == 0)
+	{
+		return c;
+	}
+	else
+	{
+		cout << "ERROR" << endl;
+		string n =  "-1";
+		return n;
+	}
+}
+string LongMulOneDigit(string num1, int b)
+{
+	string c;
+	int carry = 0, temp = 0;
+	for (int i = 0; i < num1.length(); i++)
+	{
+		temp = (num1[i] - '0') * b + carry;
+		c.insert(0,to_string(temp & 1));
+		carry = temp >> 1;
+	}
+	c.insert(0, to_string(carry));
+	return c;
+}
+string LongShiftDigitsToHigh(string num1, int b)
+{
+	reverse(num1.begin(), num1.end());
+	for (int i = 0; i < b; i++)
+	{
+		num1.insert(0, "0");
+	}
+	reverse(num1.begin(), num1.end());
+	return num1;
+}
+string LongMul(string n1, string n2)
+{
+	string c = "0";
+	string temp;
+	reverse(n1.begin(), n1.end());
+	reverse(n2.begin(), n2.end());
+	if (n1.length() >= n2.length())
+	{
+		for (int i = 0; i < n2.length(); i++)
+		{
+			temp = LongMulOneDigit(n1, n2[i] - '0');
+			temp = LongShiftDigitsToHigh(temp, i);
+			c = LongAdd(temp, c);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < n1.length(); i++)
+		{
+			temp = LongMulOneDigit(n2, n1[i] - '0');
+			temp = LongShiftDigitsToHigh(temp, i);
+			c = LongAdd(temp, c);
+		}
+	}
+	return c;
+}
+int LongCmp(string n1, string n2)
+{
+	if (n1.length() - 1 > n2.length() - 1)
+	{
+		n2 = OneLong(n2, n1);
+	}
+	else if (n1.length() - 1 < n2.length() - 1)
+	{
+		n1 = OneLong(n1, n2);
+	}
+	int i = n1.length() - 1;
+	while (i >= 0 && n1[i] == n2[i])
+	{
+		i = i - 1;
+	}
+	if (i == -1)
+	{
+		return 0;
+	}
+	else
+	{
+		if (n1[i] > n2[i])
+		{
+			return 1;
+		}
+		else
+		{
+			return -1;
+		}
+	}
 }
 
+
+	int main()
+	{
+		string number1, number2;
+		getline(cin, number1);
+		getline(cin, number2);
+		string num1 = HEXINBIT(number1);
+		cout << num1 << endl;
+		string num2 = HEXINBIT(number2);
+		cout << num2 << endl;
+		string c = BININHEX(LongAdd(num1, num2));
+		cout << "A+B = " << c << endl;
+		string d = LongSub(num1, num2);
+		if (d == "-1")
+		{
+			cout << "attention, you subtract less from more. Please change the order of the numbers" << endl;
+		}
+		else
+		{
+			cout << "A-B = " << BININHEX(d) << endl;
+		}
+		string e = LongMul(num1, num2);
+		cout << "A*B = " << BININHEX(e) << endl;
+		int cmp = LongCmp(num1, num2);
+		if (cmp == 0)
+		{
+			cout << "A = B" << endl;
+		}
+		else if (cmp == 1)
+		{
+			cout << "A > B" << endl;
+		}
+		else
+		{
+			cout << " A < B" << endl;
+		}
+		return 0;
+	}
