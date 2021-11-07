@@ -191,7 +191,6 @@ string LongSub(string n1, string n2)
 	}
 	else
 	{
-		cout << "ERROR" << endl;
 		string n =  "-1";
 		return n;
 	}
@@ -256,6 +255,8 @@ int LongCmp(string n1, string n2)
 		n1 = OneLong(n1, n2);
 	}
 	int i = n1.length() - 1;
+	reverse(n1.begin(), n1.end());
+	reverse(n2.begin(), n2.end());
 	while (i >= 0 && n1[i] == n2[i])
 	{
 		i = i - 1;
@@ -276,42 +277,107 @@ int LongCmp(string n1, string n2)
 		}
 	}
 }
-
-
-	int main()
+string LongPower(string a, string b)
+{
+	string c = "0001";
+	if (a.length() - 1 > b.length() - 1)
 	{
-		string number1, number2;
-		getline(cin, number1);
-		getline(cin, number2);
-		string num1 = HEXINBIT(number1);
-		cout << num1 << endl;
-		string num2 = HEXINBIT(number2);
-		cout << num2 << endl;
-		string c = BININHEX(LongAdd(num1, num2));
-		cout << "A+B = " << c << endl;
-		string d = LongSub(num1, num2);
-		if (d == "-1")
-		{
-			cout << "attention, you subtract less from more. Please change the order of the numbers" << endl;
-		}
-		else
-		{
-			cout << "A-B = " << BININHEX(d) << endl;
-		}
-		string e = LongMul(num1, num2);
-		cout << "A*B = " << BININHEX(e) << endl;
-		int cmp = LongCmp(num1, num2);
-		if (cmp == 0)
-		{
-			cout << "A = B" << endl;
-		}
-		else if (cmp == 1)
-		{
-			cout << "A > B" << endl;
-		}
-		else
-		{
-			cout << " A < B" << endl;
-		}
-		return 0;
+		b = OneLong(b, a);
 	}
+	else if (a.length() - 1 < b.length() - 1)
+	{
+		a = OneLong(a, b);
+	}
+	for (int i = b.length() - 1; i >= 0; i--)
+	{
+		if (b[i] == '1')
+		{
+			c = LongMul(c, a);
+		}
+		a = LongMul(a, a);
+	}
+	return c;
+}
+string LongDivMod(string a, string b)
+{
+	int k = b.length();
+	string r = a;
+	string q = "0";
+	string c;
+	int cmp = LongCmp(r, b);
+	string step = "1";
+	while ( cmp >= 0)
+	{
+		int t = r.length();
+		c = LongShiftDigitsToHigh(b, t - k);
+		cmp = LongCmp(r, c);
+		if (cmp < 0)
+		{
+			t = t - 1;
+			c = LongShiftDigitsToHigh(b, t - k);
+		}
+		r = LongSub(r, c);
+		step = "1";
+		step = LongShiftDigitsToHigh(step, t - k);
+		q = LongAdd(q, step);
+		while (r[0] == '0' && r.length() > 1)
+		{
+			r.erase(0, 1);
+		}
+		cmp = LongCmp(r, b);
+	}
+	if ( q == "0000")
+	{
+		cout << "Can`t div this numbers..." << endl;
+		return q;
+	}
+	else
+	{
+		return q;
+	}
+}
+
+
+int main()
+{
+	string number1, number2;
+	getline(cin, number1);
+	getline(cin, number2);
+	string num1 = HEXINBIT(number1);
+	cout << num1 << endl;
+	string num2 = HEXINBIT(number2);
+	cout << num2 << endl;
+	string c = BININHEX(LongAdd(num1, num2));
+	cout << "A+B = " << c << endl;
+	string d = LongSub(num1, num2);
+	if (d == "-1")
+	{
+		cout << "attention, you subtract less from more. Please change the order of the numbers" << endl;
+	}
+	else
+	{
+		cout << "A-B = " << BININHEX(d) << endl;
+	}
+	string e = LongMul(num1, num2);
+	cout << "E = A*B = " << BININHEX(e) << endl;
+	int cmp = LongCmp(num1, num2);
+	if (cmp == 0)
+	{
+		cout << "A = B" << endl;
+	}
+	else if (cmp == 1)
+	{
+		cout << "A > B" << endl;
+	}
+	else
+	{
+		cout << " A < B" << endl;
+	}
+	string f = LongDivMod(e, num2);
+	cout << "E / B = " << endl;
+	cout << BININHEX(f) << endl;
+	string g = LongPower(num1, num2);
+	cout << "A ^ B = " << endl;
+	cout << BININHEX(g) << endl;
+	return 0;
+}
