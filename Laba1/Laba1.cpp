@@ -54,9 +54,9 @@ string BININHEX(string n)
 		n.insert(0, "0");
 	}
 	string c;
-	for (int i = 0; i < n.length()-1; i=i+4)
+	for (int i = 0; i < n.length() - 1; i = i + 4)
 	{
-		if (n[i] == '0' && n[i + 1] == '0' && n[i+2] == '0' && n[i+3]== '0')
+		if (n[i] == '0' && n[i + 1] == '0' && n[i + 2] == '0' && n[i + 3] == '0')
 		{
 			c += "0";
 		}
@@ -123,6 +123,17 @@ string BININHEX(string n)
 	}
 	return c;
 }
+string TENINDIT(int a)
+{
+	string z;
+	while (a >= 2)
+	{
+		z.insert(0, to_string(a % 2));
+		a = a / 2;
+	}
+	z.insert(0, "1");
+	return z;
+}
 string OneLong(string a, string b)
 {
 	while (a.length() - 1 != b.length() - 1)
@@ -138,7 +149,7 @@ string LongAdd(string n1, string n2)
 	{
 		n2 = OneLong(n2, n1);
 	}
-	else if(n1.length() - 1 < n2.length() - 1)
+	else if (n1.length() - 1 < n2.length() - 1)
 	{
 		n1 = OneLong(n1, n2);
 	}
@@ -160,7 +171,7 @@ string LongAdd(string n1, string n2)
 string LongSub(string n1, string n2)
 {
 	string c;
-	int borrow = 0, temp =0;
+	int borrow = 0, temp = 0;
 	if (n1.length() - 1 > n2.length() - 1)
 	{
 		n2 = OneLong(n2, n1);
@@ -173,7 +184,7 @@ string LongSub(string n1, string n2)
 	reverse(n2.begin(), n2.end());
 	for (int i = 0; i < n1.length(); i++)
 	{
-		temp = n1[i]  - n2[i] - borrow;
+		temp = n1[i] - n2[i] - borrow;
 		if (temp >= 0)
 		{
 			c.insert(0, to_string(temp));
@@ -191,7 +202,7 @@ string LongSub(string n1, string n2)
 	}
 	else
 	{
-		string n =  "-1";
+		string n = "-1";
 		return n;
 	}
 }
@@ -202,7 +213,7 @@ string LongMulOneDigit(string num1, int b)
 	for (int i = 0; i < num1.length(); i++)
 	{
 		temp = (num1[i] - '0') * b + carry;
-		c.insert(0,to_string(temp & 1));
+		c.insert(0, to_string(temp & 1));
 		carry = temp >> 1;
 	}
 	c.insert(0, to_string(carry));
@@ -279,14 +290,14 @@ int LongCmp(string n1, string n2)
 }
 string LongPower(string a, string b)
 {
-	string c = "0001";
-	if (a.length() - 1 > b.length() - 1)
+	string c = "1";
+	while (a[0] == '0' && a.length() > 1)
 	{
-		b = OneLong(b, a);
+		a.erase(0, 1);
 	}
-	else if (a.length() - 1 < b.length() - 1)
+	while (b[0] == '0' && b.length() > 1)
 	{
-		a = OneLong(a, b);
+		b.erase(0, 1);
 	}
 	for (int i = b.length() - 1; i >= 0; i--)
 	{
@@ -294,11 +305,19 @@ string LongPower(string a, string b)
 		{
 			c = LongMul(c, a);
 		}
+		while (c[0] == '0' && c.length() > 1)
+		{
+			c.erase(0, 1);
+		}
 		a = LongMul(a, a);
+		while (a[0] == '0' && a.length() > 1)
+		{
+			a.erase(0, 1);
+		}
 	}
 	return c;
 }
-string LongDivMod(string a, string b)
+string LongDiv(string a, string b)
 {
 	int k = b.length();
 	string r = a;
@@ -306,7 +325,7 @@ string LongDivMod(string a, string b)
 	string c;
 	int cmp = LongCmp(r, b);
 	string step = "1";
-	while ( cmp >= 0)
+	while (cmp >= 0)
 	{
 		int t = r.length();
 		c = LongShiftDigitsToHigh(b, t - k);
@@ -326,7 +345,7 @@ string LongDivMod(string a, string b)
 		}
 		cmp = LongCmp(r, b);
 	}
-	if ( q == "0000")
+	if (q == "0000")
 	{
 		cout << "Can`t div this numbers..." << endl;
 		return q;
@@ -336,18 +355,170 @@ string LongDivMod(string a, string b)
 		return q;
 	}
 }
-
+string LongMod(string a, string b)
+{
+	int k = b.length();
+	string r = a;
+	string q = "0";
+	string c;
+	int cmp = LongCmp(r, b);
+	string step = "1";
+	while (cmp >= 0)
+	{
+		int t = r.length();
+		c = LongShiftDigitsToHigh(b, t - k);
+		cmp = LongCmp(r, c);
+		if (cmp < 0)
+		{
+			t = t - 1;
+			c = LongShiftDigitsToHigh(b, t - k);
+		}
+		r = LongSub(r, c);
+		step = "1";
+		step = LongShiftDigitsToHigh(step, t - k);
+		q = LongAdd(q, step);
+		while (r[0] == '0' && r.length() > 1)
+		{
+			r.erase(0, 1);
+		}
+		cmp = LongCmp(r, b);
+	}
+	if (q == "0000")
+	{
+		cout << "Can`t div this numbers..." << endl;
+		return r;
+	}
+	else
+	{
+		return r;
+	}
+}
+string GCD(string a, string b)
+{
+	string d = "1";
+	string two = "10";
+	string a1;
+	while (a[a.length() - 1] == '0' && b[b.length() - 1] == '0')
+	{
+		a = LongDiv(a, two);
+		b = LongDiv(b, two);
+		d = LongMul(d, two);
+	}
+	while (a[a.length() - 1] == '0')
+	{
+		a = LongDiv(a, two);
+	}
+	while (b != "0")
+	{
+		while (b[b.length() - 1] == '0')
+		{
+			b = LongDiv(b, two);
+		}
+		int cmp = LongCmp(a, b);
+		if (cmp >= 0)
+		{
+			a1 = b;
+			b = LongSub(a, b);
+			a = a1;
+		}
+		else
+		{
+			b = LongSub(b, a);
+		}
+		while (b[0] == '0' && b.length() > 1)
+		{
+			b.erase(0, 1);
+		}
+	}
+	d = LongMul(a, d);
+	return d;
+}
+string GCK(string a, string b)
+{
+	string d = LongMul(a, b);
+	d = LongDiv(d, GCD(a, b));
+	return d;
+}
+void FSTEST()
+{
+	string a, b, c;
+	getline(cin, a);
+	getline(cin, b);
+	getline(cin, c);
+	a = HEXINBIT(a);
+	b = HEXINBIT(b);
+	c = HEXINBIT(c);
+	string abc = LongMul(LongAdd(a, b), c);
+	abc = BININHEX(abc);
+	cout << "(a+b)c = " << abc << endl;
+	string cab = LongMul(c, LongAdd(a, b));
+	cab = BININHEX(cab);
+	cout << "c(a+b) = " << cab << endl;
+	string cacb = LongAdd(LongMul(a, c), LongMul(b, c));
+	cacb = BININHEX(cacb);
+	cout << "ca+cb = " << cab << endl;
+	string n = "C8";
+	string na = a;
+	n = HEXINBIT(n);
+	for (int i = 0; i < 199; i++)
+	{
+		na = LongAdd(na, a);
+	}
+	na = BININHEX(na);
+	cout << "a+a+a+a+... = " << na << endl;
+	string an = LongMul(n, a);
+	an = BININHEX(an);
+	cout << "na = " << an << endl;
+}
+string KLD(string a, int l)
+{
+	if (a.length() < l) l = a.length();
+	a.resize(a.length() - l);
+	return a;
+}
+string Barret(string x, string n, string y)
+{
+	int k = n.length();
+	string q = KLD(x, k - 1);
+	q = LongMul(y, q);
+	q = KLD(q, k + 1);
+	string r = LongSub(x, LongMul(q, n));
+	while (LongCmp(r, n) == 1)
+	{
+		r = LongSub(r, n);
+	}
+	while (r[0] == '0' && r.length() > 1)
+	{
+		r.erase(0, 1);
+	}
+	return r;
+}
+string BarretLongPower(string a, string b, string n)
+{
+	string c = "1";
+	string y = LongShiftDigitsToHigh("1", 2 * n.length());
+	y = LongDiv(y, n);
+	for (int i = 0; i < b.length() - 1; i++)
+	{
+		if (b[i] == '1')
+		{
+			c = Barret(LongMul(c, a), n, y);
+		}
+		c = Barret(LongMul(a, a), n, y);
+	}
+	return c;
+}
 
 int main()
 {
-	string number1, number2;
+	string number1, number2, number3;
 	getline(cin, number1);
 	getline(cin, number2);
 	string num1 = HEXINBIT(number1);
 	cout << num1 << endl;
 	string num2 = HEXINBIT(number2);
 	cout << num2 << endl;
-	string c = BININHEX(LongAdd(num1, num2));
+	/*string c = BININHEX(LongAdd(num1, num2));
 	cout << "A+B = " << c << endl;
 	string d = LongSub(num1, num2);
 	if (d == "-1")
@@ -373,11 +544,32 @@ int main()
 	{
 		cout << " A < B" << endl;
 	}
-	string f = LongDivMod(e, num2);
-	cout << "E / B = " << endl;
+	string f = LongDiv(num1, num2);
+	cout << "A / B = " << endl;
 	cout << BININHEX(f) << endl;
 	string g = LongPower(num1, num2);
 	cout << "A ^ B = " << endl;
 	cout << BININHEX(g) << endl;
+	string h = LongMod(e, num2);
+	cout << "A Mod B = " << endl << BININHEX(h) << endl;*/
+	string i = GCD(num1, num2);
+	cout << "GCD(A, B) = " << endl << BININHEX(i) << endl;
+	string l = GCK(num1, num2);
+	cout << "GCK(A, B) = " << endl << BININHEX(l) << endl;
+	getline(cin, number3);
+	string num3 = HEXINBIT(number3);
+	cout << num3 << endl;
+	int step = pow(2, 2 * num3.length());
+	string st = TENINDIT(step);
+	string y = LongMod(st, num3);
+	cout << "Modular operation :" << endl;
+	string o1 = Barret(LongAdd(num1, num2), num3, y);
+	cout << "A+B mod n = " << BININHEX(o1) << endl;
+	string o2 = Barret(LongSub(num1, num2), num3, y);
+	cout << "A-B mod n = " << BININHEX(o2) << endl;
+	string o3 = Barret(LongMul(num1, num2), num3, y);
+	cout << "A*B mod n = " << BININHEX(o3) << endl;
+	string o4 = BarretLongPower(num1, num2, num3);
+	cout << "A*B mod n = " << BININHEX(o4) << endl;
 	return 0;
 }
