@@ -156,7 +156,7 @@ string Mod(string a, string b)
 	}
 	else
 	{
-		while (r.length() != 281)
+		while (r.length() < 281)
 		{
 			r.insert(0, "0");
 		}
@@ -171,6 +171,10 @@ string Trace(string a, string mod)
 		a = LongMul(a, a);
 		a = Mod(a, mod);
 		tr = LongAdd(tr, a);
+	}
+	while (tr[0] == '0' && tr.length() > 1)
+	{
+		tr.erase(0, 1);
 	}
 	return tr;
 }
@@ -203,7 +207,27 @@ string LongPower(string a, string b, string mod)
 			a.erase(0, 1);
 		}
 	}
+	while (c.size() < 281)
+	{
+		c.insert(0, "0");
+	}
 	return c;
+}
+void FTEST(string a, string b, string c, string mod)
+{
+	string ab = LongAdd(a, b);
+	ab = LongMul(ab, c);
+	ab = Mod(ab, mod);
+	cout << "(a + b)*c = " << endl << ab << endl;
+	string ac = LongMul(a, c);
+	ac = Mod(ac, mod);
+	string bc = LongMul(b, c);
+	bc = Mod(bc, mod);
+	ab = LongAdd(ac, bc);
+	cout << "a*c + c*b = " << endl << ab << endl;
+	string m = "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
+	string d = LongPower(a, m, mod);
+	cout << "D^2^m-1 = " << d << endl;
 }
 
 int main()
@@ -219,7 +243,7 @@ int main()
 	string kvadr = LongMul(number1, number1);
 	cout << "A^2 = " << endl << Mod(kvadr, nummod) << endl;
 	string trace = Trace(number1, nummod);
-	cout << "Trace = " << endl << trace;
+	cout << "Trace = " << endl << trace << endl;
 	string N;
 	cout << "Please write your N" << endl;
 	getline(cin, N);
@@ -228,5 +252,6 @@ int main()
 	string m2 = "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111110";
 	string revers = LongPower(number1, m2, nummod);
 	cout << "A^-1 = " << endl << revers << endl;
+	FTEST(number1, number2, N, nummod);
 	return 0;
 }
