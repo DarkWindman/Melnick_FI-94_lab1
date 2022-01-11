@@ -324,6 +324,14 @@ string LongPower(string a, string b)
 }
 string LongDiv(string a, string b)
 {
+	while (a[0] == '0' && a.length() > 1)
+	{
+		a.erase(0, 1);
+	}
+	while (b[0] == '0' && b.length() > 1)
+	{
+		b.erase(0, 1);
+	}
 	int k = b.length();
 	string r = a;
 	string q = "0";
@@ -362,6 +370,14 @@ string LongDiv(string a, string b)
 }
 string LongMod(string a, string b)
 {
+	while (a[0] == '0' && a.length() > 1)
+	{
+		a.erase(0, 1);
+	}
+	while (b[0] == '0' && b.length() > 1)
+	{
+		b.erase(0, 1);
+	}
 	int k = b.length();
 	string r = a;
 	string q = "0";
@@ -627,18 +643,22 @@ string Evklid(string a, string b)
 
 int main()
 {
-	/*cout << "It`s a test 2:" << endl;
-	FSTEST2();*/
 	string number1, number2, number3;
 	getline(cin, number1);
 	getline(cin, number2);
 	string num1 = HEXINBIT(number1);
-	cout << num1 << endl;
 	string num2 = HEXINBIT(number2);
+	cout << num1 << endl;
 	cout << num2 << endl;
-	/*string c = BININHEX(LongAdd(num1, num2));
+	unsigned int start_timepl1 = clock();
+	string c = BININHEX(LongAdd(num1, num2));
+	unsigned int end_timepl1 = clock();
 	cout << "A+B = " << c << endl;
+	unsigned int search_timepl1 = end_timepl1 - start_timepl1;
+	cout << endl << "Time + " << search_timepl1 << endl;
+	unsigned int start_timeot1 = clock();
 	string d = LongSub(num1, num2);
+	unsigned int end_timeot1 = clock();
 	if (d == "-1")
 	{
 		cout << "attention, you subtract less from more. Please change the order of the numbers" << endl;
@@ -646,9 +666,15 @@ int main()
 	else
 	{
 		cout << "A-B = " << BININHEX(d) << endl;
+		unsigned int search_timeot1 = end_timeot1 - start_timeot1;
+		cout << endl << "Time - " << search_timeot1 << endl;
 	}
+	unsigned int start_timem1 = clock();
 	string e = LongMul(num1, num2);
+	unsigned int end_timem1 = clock();
+	unsigned int search_timem1 = end_timem1 - start_timem1;
 	cout << "E = A*B = " << BININHEX(e) << endl;
+	cout << endl << "Time * " << search_timem1 << endl;
 	int cmp = LongCmp(num1, num2);
 	if (cmp == 0)
 	{
@@ -662,29 +688,22 @@ int main()
 	{
 		cout << " A < B" << endl;
 	}
-	string f = LongDiv(num1, num2);
-	cout << "A / B = " << endl;
+	unsigned int start_timed1 = clock();
+	string f = LongDiv(e, num2);
+	unsigned int end_timed1 = clock();
+	cout << "(A*B) / B = " << endl;
+	unsigned int search_timed1 = end_timed1 - start_timed1;
 	cout << BININHEX(f) << endl;
+	cout << endl << "Time / " << search_timed1 << endl;
+	unsigned int start_times1 = clock();
 	string g = LongPower(num1, num2);
+	unsigned int end_times1 = clock();
+	unsigned int search_times1 = end_times1 - start_times1;
 	cout << "A ^ B = " << endl;
 	cout << BININHEX(g) << endl;
+	cout << endl << "Time ^ " << search_times1 << endl;
 	string h = LongMod(e, num2);
-	cout << "A Mod B = " << endl << BININHEX(h) << endl;*/
-	getline(cin, number3);
-	string num3 = HEXINBIT(number3);
-	cout << num3 << endl;
-	string one = "1";
-	one = LongShiftDigitsToHigh(one, 2 * num3.length());
-	string y = LongDiv(one, num3);
-	cout << "Modular operation :" << endl;
-	string o1 = Barret(LongAdd(num1, num2), num3, y);
-	cout << "A+B mod n = " << BININHEX(o1) << endl;
-	string o2 = Barret(LongSub(num1, num2), num3, y);
-	cout << "A-B mod n = " << BININHEX(o2) << endl;
-	string o3 = Barret(LongMul(num1, num2), num3, y);
-	cout << "A*B mod n = " << BININHEX(o3) << endl;
-	string o4 = BarretLongPower(num1, num2, num3);
-	cout << "A^B mod n = " << BININHEX(o4) << endl;
+	cout << "A Mod B = " << endl << BININHEX(h) << endl;
 	unsigned int start_time = clock();
 	string evklid = Evklid(num1, num2);
 	unsigned int end_time = clock();
@@ -703,5 +722,46 @@ int main()
 	end_time = clock();
 	search_time = end_time - start_time;
 	cout << "GCK(A, B) = " << endl << BININHEX(l) << endl << "Time: " << search_time << endl;
+	getline(cin, number3);
+	string num3 = HEXINBIT(number3);
+	cout << num3 << endl;
+	string one = "1";
+	one = LongShiftDigitsToHigh(one, 2 * num3.length());
+	string y = LongDiv(one, num3);
+	cout << "Modular operation :" << endl;
+	unsigned int start_timep = clock();
+	string o1 = Barret(LongAdd(num1, num2), num3, y);
+	unsigned int end_timep = clock();
+	unsigned int search_timep = end_timep - start_timep;
+	cout << "A+B mod n = " << BININHEX(o1) << endl;
+	cout << endl << "Time + " << search_timep << endl;
+	unsigned int start_timeot = clock();
+	string o2 = Barret(LongSub(num1, num2), num3, y);
+	unsigned int end_timeot = clock();
+	unsigned int search_timeot = end_timeot - start_timeot;
+	cout << "A-B mod n = " << BININHEX(o2) << endl;
+	cout << endl << "Time - " << search_timeot << endl;
+	unsigned int start_timem = clock();
+	string o3 = Barret(LongMul(num1, num2), num3, y);
+	unsigned int end_timem = clock();
+	unsigned int search_timem = end_timem - start_timem;
+	cout << "A*B mod n = " << BININHEX(o3) << endl;
+	cout << endl << "Time * " << search_timem << endl;
+	unsigned int start_timekv = clock();
+	string o5 = Barret(LongMul(num1, num1), num3, y);
+	unsigned int end_timekv = clock();
+	unsigned int search_timekv = end_timekv - start_timekv;
+	cout << "A*A mod n = " << BININHEX(o5) << endl;
+	cout << endl << "Time kvadrat " << search_timekv << endl;
+	unsigned int start_timest = clock();
+	string o4 = BarretLongPower(num1, num2, num3);
+	unsigned int end_timest = clock();
+	unsigned int search_timest = end_timest - start_timest;
+	cout << "A^B mod n = " << BININHEX(o4) << endl;
+	cout << endl << "Time step " << search_timest << endl;
+	cout << "It`s a test 1:" << endl;
+	FSTEST();
+	cout << "It`s a test 2:" << endl;
+	FSTEST2();
 	return 0;
 }
