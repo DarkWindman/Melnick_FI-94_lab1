@@ -3,6 +3,7 @@
 #include <string.h>
 #include <algorithm>
 #include <math.h>
+#include <ctime>
 using namespace std;
 
 string OneLong(string a, string b)
@@ -386,28 +387,51 @@ void FTEST2(string m[])
 
 int main()
 {
-	cout << (-1127) % 563 << endl;
 	string number1, number2, number3;
 	getline(cin, number1);
 	getline(cin, number2);
+	unsigned int start_timepl1 = clock();
 	number3 = LongAdd(number1, number2);
+	unsigned int end_timepl1 = clock();
 	cout << "A+B = " << endl << number3 << endl;
+	unsigned int search_timepl1 = end_timepl1 - start_timepl1;
+	cout << endl << "Time + " << search_timepl1 << endl;
+	unsigned int start_timem1 = clock();
 	string number4 = LongMul(number1, number2);
+	unsigned int end_timem1 = clock();
 	string nummod = "100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000010011";
 	cout << "A*B = " << endl << Mod(number4, nummod)  << endl;
+	unsigned int search_timem1 = end_timem1 - start_timem1;
+	cout << endl << "Time * " << search_timem1 << endl;
+	unsigned int start_timeot1 = clock();
 	string kvadr = LongMul(number1, number1);
+	unsigned int end_timeot1 = clock();
 	cout << "A^2 = " << endl << Mod(kvadr, nummod) << endl;
+	unsigned int search_timeot1 = end_timeot1 - start_timeot1;
+	cout << endl << "Time - " << search_timeot1 << endl;
+	unsigned int start_timetr1 = clock();
 	string trace = Trace(number1, nummod);
+	unsigned int end_timetr1 = clock();
 	cout << "Trace = " << endl << trace << endl;
-	string N;
+	unsigned int search_timetr1 = end_timetr1 - start_timetr1;
+	cout << endl << "Time Trace " << search_timetr1 << endl;
+	string n;
 	cout << "Please write your N" << endl;
-	getline(cin, N);
-	string power = LongPower(number1, N, nummod);
+	getline(cin, n);
+	unsigned int start_times1 = clock();
+	string power = LongPower(number1, n, nummod);
+	unsigned int end_times1 = clock();
+	unsigned int search_times1 = end_times1 - start_times1;
 	cout << "A^N = " << endl << power << endl;
+	cout << endl << "Time ^ " << search_times1 << endl;
 	string m2 = "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111110";
+	unsigned int start_timed1 = clock();
 	string revers = LongPower(number1, m2, nummod);
+	unsigned int end_timed1 = clock();
+	unsigned int search_timed1 = end_timed1 - start_timed1;
 	cout << "A^-1 = " << endl << revers << endl;
-	FTEST(number1, number2, N, nummod);   //end of 3 lab
+	cout << endl << "Time -1 = " << search_timed1 << endl;
+	FTEST(number1, number2, n, nummod);  //end of 3 lab
 	cout << "Operation in ONB" << endl << " A+B = " << number3 << endl;
 	string matrix[281];
 	int step, step1;
@@ -437,19 +461,39 @@ int main()
 	}
 	cout << "Kolichestvo 1 " << odin << endl;
 	FTEST2(matrix);
+	unsigned int start_timem = clock();
 	string n2 = LongMulONB(number1, number2, matrix);
+	unsigned int end_timem = clock();
 	cout << "A*B = " << endl << n2 << endl;
+	unsigned int search_timem = end_timem - start_timem;
+	cout << endl << "Time * " << search_timem << endl;
+	unsigned int start_timetr = clock();
 	int t = ONBtrace(number1);
+	unsigned int end_timetr = clock();
+	unsigned int search_timetr = end_timetr - start_timetr;
+	cout << endl << "Time Trace " << search_timetr << endl;
 	cout << "Trace = " << endl << t << endl;
+	unsigned int start_timekv = clock();
 	string ONBkvad = MulKvar(number1);
+	unsigned int end_timekv = clock();
+	unsigned int search_timekv = end_timekv - start_timekv;
 	cout << "A^2 = " << endl << ONBkvad << endl;
+	cout << endl << "Time kvadrat " << search_timekv << endl;
 	string N;
 	cout << "Please write your N" << endl;
 	getline(cin, N);
+	unsigned int start_timest = clock();
 	string powerONB = ONBPower(number1, N, matrix);
+	unsigned int end_timest = clock();
+	unsigned int search_timest = end_timest - start_timest;
 	cout << "A^N = " << endl << powerONB << endl;
+	cout << endl << "Time step " << search_timest << endl;
 	string min = "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111110";
+	unsigned int start_timeot = clock();
 	string powerMONB = ONBPower(number1, min, matrix);
+	unsigned int end_timeot = clock();
+	unsigned int search_timeot = end_timeot - start_timeot;
 	cout << "A^-1 = " << endl << powerMONB << endl;
+	cout << endl << "Time -1 " << search_timeot << endl;
 	return 0;
 }
